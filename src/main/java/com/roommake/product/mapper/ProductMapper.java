@@ -8,6 +8,8 @@ import com.roommake.order.vo.Order;
 import com.roommake.order.vo.OrderItem;
 import com.roommake.product.dto.*;
 import com.roommake.product.vo.*;
+import com.roommake.user.vo.ProductScrap;
+import com.roommake.user.vo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
@@ -124,4 +126,6 @@ public interface ProductMapper {
 
     void addMinusPoint(@Param("userId") int userId,
                        @Param("point") int point);
+
+    ProductScrap getProductScrapTF(User user, Product product);
 }

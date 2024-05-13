@@ -17,6 +17,7 @@
         <result column="parents_product_category_id" property="parentsCategoryId" />
         <collection column="product_id" property="tags" ofType="com.roommake.product.vo.ProductTagCategory" select="getTagsByProductId"/>
         <collection column="product_id" property="productRating" ofType="int" select="getProductRatingByProductId"/>
+        <collection column="product_id" property="productScrapCount" ofType="int" select="getProductScrapCount"/>
     </resultMap>
 
     <select id="getAllProducts" resultType="com.roommake.product.vo.Product">
@@ -830,5 +831,27 @@
         where
             user_id = #{userId}
     </update>
+
+    <select id="getProductScrapTF" parameterType="com.roommake.community.vo.CommunityScrap" resultType="com.roommake.community.vo.CommunityScrap">
+        select
+            product_id,
+            product_scrap_create_date,
+            product_scrap_delete_date,
+            product_scrap_delete_yn,
+            product_scrap_update_date,
+            scrap_folder_id,
+            user_id
+        from
+            product_scrap
+        where
+            product_id = #{product.id}
+          and user_id = #{user.id}
+    </select>
+
+    <select id="getProductScrapCount" parameterType="int" resultType="int">
+        select count(ps.product_id)
+        from product_scrap ps
+        where ps.product_id = #{id}
+    </select>
 
 </mapper>

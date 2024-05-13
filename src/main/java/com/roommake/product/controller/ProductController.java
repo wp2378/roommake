@@ -17,6 +17,7 @@ import com.roommake.resolver.Login;
 import com.roommake.user.security.LoginUser;
 import com.roommake.user.security.UserDetailsImpl;
 import com.roommake.user.service.UserService;
+import com.roommake.user.vo.ScrapFolder;
 import com.roommake.user.vo.User;
 import com.roommake.utils.S3Uploader;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -62,12 +64,18 @@ public class ProductController {
                          @RequestParam(name = "page", required = false, defaultValue = "1") int CurrentPage,
                          @RequestParam(name = "rows", required = false, defaultValue = "5") int rows,
                          @RequestParam(name = "sort", required = false, defaultValue = "latest") String sort,
+                         Principal principal,
                          Model model) {
         ProdctDetailCriteria prodctDetailCriteria = new ProdctDetailCriteria();
         prodctDetailCriteria.setPage(CurrentPage);
         prodctDetailCriteria.setProductId(id);
         prodctDetailCriteria.setRows(rows);
         prodctDetailCriteria.setSort(sort);
+
+        String email = principal != null ? principal.getName() : null;
+
+        boolean productScrapTF = productService.getProductScrapTF(id, email);
+        model.addAttribute("productScrapTF", productScrapTF);
 
         ProductCriteria productCriteria = new ProductCriteria();
         productCriteria.setPage(CurrentPage);
@@ -97,8 +105,6 @@ public class ProductController {
 
         List<ProductDto> productDifferentList = productService.getDifferentProduct(id, productCriteria);
         model.addAttribute("productDifferentList", productDifferentList);
-
-//        String scarp = productService.
 
         model.addAttribute("id", id);
 
@@ -287,8 +293,16 @@ public class ProductController {
     }
 
     // 스크랩 popup으로 이동하는 메소드
-    @GetMapping("/popup")
-    public String popup() {
+    @Operation(summary = "스크랩 폴더 목록 조회", description = "모든 스크랩 폴더 목록을 조회한다.")
+    @GetMapping("/scrap/{commId}")
+    @PreAuthorize("isAuthenticated()")
+    public String scrapFolderList(@PathVariable("commId") int communityId,
+                                  @Login LoginUser loginUser, Model model) {
+
+        List<ScrapFolder> scrapFolderList = communityService.getScrapFolders(loginUser.getId());
+        model.addAttribute("scrapFolderList", scrapFolderList);
+        model.addAttribute("communityId", communityId);
+
         return "layout/scrap-popup";
     }
 

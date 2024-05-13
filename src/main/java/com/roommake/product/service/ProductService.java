@@ -19,6 +19,7 @@ import com.roommake.product.vo.*;
 import com.roommake.user.enums.PointReasonEnum;
 import com.roommake.user.mapper.UserMapper;
 import com.roommake.user.vo.Follow;
+import com.roommake.user.vo.ProductScrap;
 import com.roommake.user.vo.User;
 import com.roommake.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
@@ -330,12 +331,16 @@ public class ProductService {
         return productMapper.getProductReviewIdByuserIdorderId(orderItemId, userId);
     }
 
-//    public boolean getProductScrapYn(String email) {
-//        if (email != null) {
-//            User user = userMapper.getUserByEmail(email);
-//
-//            Products
-//    }
-//
-//    ;
+    public boolean getProductScrapTF(int productId, String email) {
+        Product product = productMapper.getProductById(productId);
+        User user = userMapper.getUserByEmail(email);
+
+        ProductScrap productScrap = productMapper.getProductScrapTF(user, product);
+
+        if (productScrap != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

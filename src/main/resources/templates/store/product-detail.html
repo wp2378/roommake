@@ -146,18 +146,19 @@
             </div>
             <div class="col-md-7 ps-6">
                 <span class="fs-1" id="product-span" th:attr="data-this-productId=${id}" th:text="${product.name}">정말정말좋은 침대</span>
-                <!-- 스크랩등록 popup으로 이동하는버튼 -->
+                <!-- 스크랩 -->
                 <a sec:authorize="!isAuthenticated()" class="btn p-0" th:href="@{/user/login}" style="border: none; background-color: transparent; padding: 0; height: 30px; width: 30px;">
                     <div style="font-size: 20px"><i class="bi bi-bookmark"></i></div>
                 </a>
-<!--                <div sec:authorize="isAuthenticated()">-->
-<!--                    <button style="font-size: 40px; float: right" id="btn-product-scrap" th:if="${!commScrap}" th:attr="data-community-id=${product.id}">-->
-<!--                        <div class="scrap-icon nav-item" style="font-size: 20px"><i class="bi bi-bookmark-plus"></i></div>-->
-<!--                    </button>-->
-<!--                    <button style="font-size: 40px; float: right" id="btn-product-ubScrap" th:if="${commScrap}" th:attr="data-community-id=${product.id}">-->
-<!--                        <div class="scrap-icon nav-item" style="font-size: 20px"><i class="bi bi-bookmark-plus"></i></div>-->
-<!--                    </button>-->
-<!--                </div>-->
+                <div sec:authorize="isAuthenticated()">
+                    <button style="border: none; background-color: transparent; padding: 0; height: 30px; width: 30px;" id="btn-product-scrap" th:if="${!productScrapTF}" th:attr="data-product-id=${product.id}">
+                        <div class="scrap-icon nav-item" style="font-size: 20px"><i class="bi bi-bookmark"></i></div>
+                    </button>
+                    <button style="border: none; background-color: transparent; padding: 0; height: 30px; width: 30px;" id="btn-product-unScrap" th:if="${productScrapTF}" th:attr="data-product-id=${product.id}">
+                        <div class="scrap-icon nav-item" style="font-size: 20px"><i class="bi bi-bookmark-fill"></i></div>
+                    </button>
+                </div>
+                <span id="scrap-count" th:text="${product.productScrapCount}">9</span>
                 <div>
                     <i class="bi bi-star-fill" style="height: 35px; color: gold;"></i>
                     <span th:text="${#numbers.formatDecimal((productRatingTotal/productReviewAmount), 1, 1)}" th:if="${productRatingTotal} > 0 ">4.3</span>
@@ -1045,6 +1046,35 @@
             $("div[id=reviewCard]").append(reviewpaging)
         })
     }
+
+
+    function createProductScrap(productId, scrapFolderId) {
+        $.post(`/product/scrap/create`, {
+            productId: productId,
+            scrapFolderId: scrapFolderId
+        }, function(productScrapCount) {
+            alert("스크랩이 등록되었습니다.");
+            $('#scrap-count').text(productScrapCount);
+            $(".scrap-icon i").removeClass('bi-bookmark').addClass('bi-bookmark-fill');
+            $("#btn-product-scrap").attr("id", "btn-product-unScrap");
+        });
+    }
+
+    $(function() {
+        $(document).on("click", "#btn-product-scrap", function() {
+            let productId = $(this).attr("data-product-id");
+            window.open("/product/scrap/" + productId, "스크랩폴더", "width=500, height=400, top=150, left=700");
+        })
+        $(document).on("click", "#btn-product-unScrap", function() {
+            let productId = $(this).attr("data-product-id");
+            $.post(`/product/scrap/delete`, {productId: productId}, function(productScrapCount) {
+                alert("스크랩이 삭제되었습니다.");
+                $('#scrap-count').text(productScrapCount);
+                $(".scrap-icon i").removeClass('bi-bookmark-fill').addClass('bi-bookmark');
+                $("#btn-product-unScrap").attr("id", "btn-product-scrap");
+            })
+        });
+    });
 
 
 

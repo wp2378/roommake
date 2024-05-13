@@ -32,4 +32,5 @@ public class ProductDto {
     private ProductCategory category;
     private List<ProductTagCategory> tags;
     private double productRating;
+    private int productScrapCount;           // 상품스크랩수
 }
