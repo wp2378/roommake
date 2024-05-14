@@ -61,9 +61,10 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>체크</th>
+                    <th><input type="checkbox" id="selectAll" onchange="selectAllItems(this)" class="form-check-input"></th>
                     <th>순번</th>
                     <th>반품번호</th>
+                    <th>반품상품번호</th>
                     <th>반품신청일자</th>
                     <th>주문자명</th>
                     <th>반품처리상태</th>
@@ -90,6 +91,15 @@
 
 <script type="text/javascript" th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
 <script type="text/javascript" layout:fragment="script" th:inline="javascript">
+
+    function selectAllItems(source) {
+        const checkboxs = document.querySelectorAll('input[type="checkbox"]');
+        checkboxs.forEach(checkbox => {
+            if (checkbox !== source)
+                checkbox.checked = source.checked;
+        });
+    }
+
     // model 데이터 가져오기
     let itemReturnList = [[${itemReturnList}]];
     // 화면 그리기
@@ -109,6 +119,7 @@
                 </th>
                 <th>${index + 1}</th>
                 <th>${returnItem.itemReturnId}</th>
+                <th>${returnItem.productId}</th>
                 <td>${new Date(returnItem.itemReturnCreateDate).toISOString().split('T')[0]}</td>
                 <th>${returnItem.userNickname}</th>
                 <th>${returnItem.itemReturnStatus}</th>

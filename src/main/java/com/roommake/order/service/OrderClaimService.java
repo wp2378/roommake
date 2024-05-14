@@ -28,6 +28,7 @@ public class OrderClaimService {
      *
      * @return 모든 주문취소사유
      */
+    @Transactional(readOnly = true)
     public List<OrderCancelReason> getAllCancelReasons() {
 
         return orderClaimMapper.getAllCancelReasons();
@@ -40,6 +41,7 @@ public class OrderClaimService {
      * @param orderItemId 주문상세번호
      * @return 주문정보, 결제정보, 배송지정보, 주문상세정보(객체/리스트)가 담긴 OrderDto 객체
      */
+    @Transactional(readOnly = true)
     public OrderDto getOrderClaimByOrderId(int orderId, int orderItemId) {
 
         Payment payment = orderMapper.getPaymentByOrderId(orderId);
@@ -113,6 +115,7 @@ public class OrderClaimService {
      * @param orderId 주문번호
      * @return 주문취소정보, 주문취소사유정보, 결제정보, 환불정보, 주문상세정보가 담긴 OrderCancelDto 객체
      */
+    @Transactional(readOnly = true)
     public OrderCancelDto getOrderCancelByOrderId(int orderId) {
 
         Payment payment = orderMapper.getPaymentByOrderId(orderId);
@@ -135,6 +138,7 @@ public class OrderClaimService {
      *
      * @return 모든 반품교환사유
      */
+    @Transactional(readOnly = true)
     public List<ReturnExchangeReason> getAllReturnExchangeReasons() {
 
         return orderClaimMapper.getAllReturnExchangeReasons();
@@ -197,6 +201,7 @@ public class OrderClaimService {
      * @param itemId 주문상세번호
      * @return 반품정보, 반품사유정보, 회수지정보, 주문상세정보가 담긴 ReturnExchangeDto 객체
      */
+    @Transactional(readOnly = true)
     public ReturnExchangeDto getItemReturnByOrderItemId(int itemId) {
 
         OrderItemDto item = orderClaimMapper.getOrderItemDtoByOrderItemId(itemId);
@@ -217,6 +222,7 @@ public class OrderClaimService {
      * @param itemId 주문상세번호
      * @return 교환정보, 교환상세정보, 주문상세정보, 교환사유정보, 회수지정보, 재배송지정보가 담긴 ReturnExchangeDto 객체
      */
+    @Transactional(readOnly = true)
     public ReturnExchangeDto getExchangeByOrderItemId(int itemId) {
 
         ReturnExchangeDto dto = orderClaimMapper.getExchangeByOrderItemId(itemId);

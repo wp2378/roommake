@@ -419,6 +419,7 @@ public class UserService {
      * @param userId 포인트 내역을 조회할 유저
      * @return 포인트 적립, 차감 내역
      */
+    @Transactional(readOnly = true)
     public List<PointHistoryDto> getPointHistoryByUserId(int userId, Pagination pagination) {
         // offset은 배열 인덱스 번호로 찾기 때문에 -1 한 값을 start로 전달한다.
         int start = pagination.getBegin() - 1;
@@ -464,6 +465,7 @@ public class UserService {
      * @param userId 유저 id
      * @return 포인트 히스토리 내역 총 개수
      */
+    @Transactional(readOnly = true)
     public int getTotalPointHistory(int userId) {
         return userMapper.getTotalPointHistory(userId);
     }

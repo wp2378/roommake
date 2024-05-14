@@ -13,6 +13,7 @@ import com.roommake.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -73,6 +74,7 @@ public class QnaService {
      * @param criteria 전체 조회할 리스트 기준
      * @return 반환된 목록
      */
+    @Transactional(readOnly = true)
     public ListDto<Qna> getQnas(Criteria criteria) {
 
         int totalRows = qnaMapper.getTotalRows(criteria);
@@ -94,6 +96,7 @@ public class QnaService {
      *
      * @return 반환된 미응답리스트
      */
+    @Transactional(readOnly = true)
     public List<Qna> getNoAnswerQnas() {
         return qnaMapper.getNoAnswerQnas();
     }
@@ -104,6 +107,7 @@ public class QnaService {
      * @param id 조회할 문의사항 번호
      * @return 조회된 문의사항
      */
+    @Transactional(readOnly = true)
     public Qna getQnaById(int id) {
 
         return qnaMapper.getQnaById(id);
@@ -114,6 +118,7 @@ public class QnaService {
      *
      * @return 문의사항 카테고리 리스트
      */
+    @Transactional(readOnly = true)
     public List<QnaCategory> getQnaCategories() {
 
         return qnaMapper.getQnaCategories();
@@ -125,6 +130,7 @@ public class QnaService {
      * @param qnaCatId 조회할 카테고리 아이디
      * @return 문의사항 카테고리
      */
+    @Transactional(readOnly = true)
     public QnaCategory getQnaCategory(int qnaCatId) {
 
         return qnaMapper.getQnaCategory(qnaCatId);
@@ -159,6 +165,7 @@ public class QnaService {
      * @param userId 조회할 유저번호
      * @return 답변완료 문의내역 리스트
      */
+    @Transactional(readOnly = true)
     public List<Qna> getAnswerQnasByUserId(int userId, Pagination pagination) {
         // offset은 배열 인덱스 번호로 찾기 때문에 -1 한 값을 start로 전달한다.
         int start = pagination.getBegin() - 1;
@@ -171,6 +178,7 @@ public class QnaService {
      * @param userId
      * @return
      */
+    @Transactional(readOnly = true)
     public List<Qna> getNoAnswerQnasByUserId(int userId, Pagination pagination) {
         // offset은 배열 인덱스 번호로 찾기 때문에 -1 한 값을 start로 전달한다.
         int start = pagination.getBegin() - 1;

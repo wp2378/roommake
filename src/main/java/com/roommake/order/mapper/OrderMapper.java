@@ -55,5 +55,5 @@ public interface OrderMapper {
 
     void updateConfirmOrder();
 
-    void updateAutoConfirmOrderItems();
+    List<Order> getOrdersByStatus();
 }

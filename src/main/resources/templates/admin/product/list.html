@@ -55,8 +55,8 @@
                     <li class="page-item" th:class="${page == 1} ? 'page-item disabled' : 'page-item'">
                         <a class="page-link" th:href="@{'/admin/product/list?page=' + ${prevPage} + '&type=' + ${type} + '&keyword=' + ${keyword}}">이전</a>
                     </li>
-                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-                        <a class="page-link" th:href="@{'/admin/product/list?page=' + ${pageNumber} + '&type=' + ${type} + '&keyword=' + ${keyword} }" th:text="${pageNumber}">1</a>
+                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(page - 2 > 0 ? page - 2 : 1, page + 2 < totalPages ? page + 2 : totalPages)}">
+                        <a class="page-link" th:href="@{'/admin/product/list?page=' + ${pageNumber} + '&type=' + ${type} + '&keyword=' + ${keyword} }" th:text="${pageNumber}" th:class="${page == pageNumber} ? 'page-link active' : 'page-link'"></a>
                     </li>
                     <li class="page-item" th:class="${page == totalPages} ? 'page-item disabled' : 'page-item'">
                         <a class="page-link" th:href="@{'/admin/product/list?page=' + ${nextPage} + '&type=' + ${type} + '&keyword=' + ${keyword} }">다음</a>

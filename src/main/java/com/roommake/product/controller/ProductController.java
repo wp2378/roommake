@@ -293,18 +293,18 @@ public class ProductController {
     }
 
     // 스크랩 popup으로 이동하는 메소드
-    @Operation(summary = "스크랩 폴더 목록 조회", description = "모든 스크랩 폴더 목록을 조회한다.")
-    @GetMapping("/scrap/{commId}")
-    @PreAuthorize("isAuthenticated()")
-    public String scrapFolderList(@PathVariable("commId") int communityId,
-                                  @Login LoginUser loginUser, Model model) {
-
-        List<ScrapFolder> scrapFolderList = communityService.getScrapFolders(loginUser.getId());
-        model.addAttribute("scrapFolderList", scrapFolderList);
-        model.addAttribute("communityId", communityId);
-
-        return "layout/scrap-popup";
-    }
+//    @Operation(summary = "스크랩 폴더 목록 조회", description = "모든 스크랩 폴더 목록을 조회한다.")
+//    @GetMapping("/scrap/{commId}")
+//    @PreAuthorize("isAuthenticated()")
+//    public String scrapFolderList(@PathVariable("commId") int communityId,
+//                                  @Login LoginUser loginUser, Model model) {
+//
+//        List<ScrapFolder> scrapFolderList = communityService.getScrapFolders(loginUser.getId());
+//        model.addAttribute("scrapFolderList", scrapFolderList);
+//        model.addAttribute("communityId", communityId);
+//
+//        return "layout/scrap-popup";
+//    }
 
     private String getUserEmail() {
         try {

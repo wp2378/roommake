@@ -5,6 +5,7 @@ import com.roommake.cart.mapper.CartMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class CartService {
      * @param userId 유저 번호
      * @return 로그인한 유저의 장바구니 상품 목록
      */
+    @Transactional(readOnly = true)
     public List<CartItemDto> getCartsByUserId(int userId) {
         return cartMapper.getCartsByUserId(userId);
     }
@@ -30,6 +32,7 @@ public class CartService {
      * @param productId 상품 번호
      * @return 상품번호에 해당하는 옵션 목록 및 상품 상세정보
      */
+    @Transactional(readOnly = true)
     public List<CartItemDto> getItemOptionsByProductId(int productId) {
         return cartMapper.getItemOptionsByProductId(productId);
     }

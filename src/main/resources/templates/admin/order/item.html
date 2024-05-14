@@ -5,7 +5,7 @@
             <div th:replace="~{layout/sidebar-admin :: sidebar-admin-fragment}"></div>
         </div>
         <div class="col-9">
-            <h1>주문내역 리스트</h1>
+            <h1>주문내역 리스트(배송관리)</h1>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end"></div>
             <table class="table table-sm">
                 <thead>
@@ -38,11 +38,6 @@
                             <option th:selected="${order.status==2}" value="2">배송중</option>
                             <option th:selected="${order.status==3}" value="3">배송완료</option>
                             <option th:selected="${order.status==4}" value="4">구매확정</option>
-                            <option th:selected="${order.status==5}" value="5">취소완료</option>
-                            <option th:selected="${order.status==6}" value="6">반품신청</option>
-                            <option th:selected="${order.status==7}" value="7">반품완료</option>
-                            <option th:selected="${order.status==8}" value="8">교환신청</option>
-                            <option th:selected="${order.status==9}" value="9">교환완료</option>
                         </select>
                     </td>
                     <td>

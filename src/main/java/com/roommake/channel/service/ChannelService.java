@@ -17,6 +17,7 @@ import com.roommake.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public class ChannelService {
      * @param criteria 정렬 및 페이징 정보
      * @return 채널정보, 총 참여자수, 총 글개수가 포함된 전체 채널 목록
      */
+    @Transactional(readOnly = true)
     public ListDto<ChannelInfoDto> getAllChannels(Criteria criteria) {
         int totalRows = channelMapper.getTotalRows(criteria);
 
@@ -56,6 +58,7 @@ public class ChannelService {
      * @param userId 로그인한 유저 아이디
      * @return 활동중인 채널 목록
      */
+    @Transactional(readOnly = true)
     public List<Channel> getChannelsByUserId(int userId) {
         return channelMapper.getChannelsByUserId(userId);
     }
@@ -66,6 +69,7 @@ public class ChannelService {
      * @param channelId 채널 아이디
      * @return 채널 정보
      */
+    @Transactional(readOnly = true)
     public Channel getChannelByChannelId(int channelId) {
         return channelMapper.getChannelByChannelId(channelId);
     }
@@ -148,6 +152,7 @@ public class ChannelService {
      * @param channelId 채널 아이디
      * @param userId    유저 아이디
      */
+    @Transactional(readOnly = true)
     public ChannelParticipant getChannelParticipant(int channelId, int userId) {
         ChannelParticipant participant = new ChannelParticipant();
         participant.toParticipant(channelId, userId);

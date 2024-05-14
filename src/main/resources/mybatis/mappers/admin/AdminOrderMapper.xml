@@ -230,6 +230,7 @@
             e.exchange_id                   as exchangeId,
             e.exchange_stauts               as status,
             case when e.exchange_approval_yn = 'Y' then '교환승인' else '교환신청' end AS approvalYn,
+            p.product_id                      as productId,
             rer.return_exchange_reason_name as reasonName,
             e.exchange_create_date          as createDate,
             e.exchange_update_date          as updateDate,
@@ -280,7 +281,8 @@
             order_item.order_item_price                        as orderItemPrice,
             `order`.user_id                                    as userId,
             user_nickname                                      as userNickname,
-            product.product_name                               as productName
+            product.product_name                               as productName,
+            product.product_id                                 as productId
         from
             item_return
                 join

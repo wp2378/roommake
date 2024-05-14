@@ -68,7 +68,7 @@
                         <td th:text="${notice.createByUser.nickname}">홍길동</td>
                         <td th:text="${#dates.format(notice.updateDate, 'yyyy-MM-dd')}">2024년 4월 11일</td>
                         <td th:text="${notice.updateByUser.nickname}">김유신</td>
-                        <td th:text="${notice.priority}"></td>
+                        <td th:text="${notice.priority == 1 ? '필독' : '일반'}"></td>
                     </tr>
                     </tbody>
                 </table>

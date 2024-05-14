@@ -1,17 +1,48 @@
+<!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base-admin}" th:with="menu='product'">
+<head>
+    <style>
+        .thumbnail-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .img-thumbnail {
+            transition: transform 0.5s ease; /* 이미지 확대 애니메이션 효과 */
+        }
+
+        .img-thumbnail:hover {
+            transform: scale(1.5); /* 마우스 호버 시 이미지 확대 */
+        }
+
+        .thumbnail-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .thumbnail-item {
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
 <div layout:fragment="content-admin" class="container my-3">
     <div class="row mb-3">
         <div class="col-2">
+            <!-- 변경된 사이드바 대체 경로 -->
             <div th:replace="~{layout/sidebar-admin :: sidebar-admin-fragment}"></div>
         </div>
         <div class="col-10">
             <div class="row mb-3">
                 <div class="col-3">
-
-                    <img th:src="@{|${defaultImage}|}" class="img-thumbnail" alt="" width="300" height="300">
-
-                    <div>
-                        <img th:each="image : ${productImages}" th:src="@{|${image.name}|}" class="img-thumbnail" alt="" width="60" height="60">
+                    <div class="thumbnail-container">
+                        <img th:src="@{|${defaultImage}|}" class="img-thumbnail main-thumbnail" alt="" width="400" height="400">
+                        <div class="thumbnail-list">
+                            <img th:each="image : ${productImages}" th:src="@{|${image.name}|}" class="img-thumbnail thumbnail-item" alt="" width="60" height="60">
+                        </div>
                     </div>
                 </div>
                 <div class="col-9">
@@ -71,7 +102,7 @@
                                                         <option value="노랑">노랑</option>
                                                     </select>
                                                     <h5>
-                                                        <lable>재고</lable>
+                                                        <label>재고</label>
                                                         <input type="text" class="form-control" name="stock">
                                                     </h5>
                                                 </div>
@@ -114,4 +145,17 @@
         </div>
     </div>
 </div>
+
+<script>
+    // 작은 사진을 클릭하여 큰 사진으로 변경
+    const thumbnailItems = document.querySelectorAll('.thumbnail-item');
+    const mainThumbnail = document.querySelector('.main-thumbnail');
+
+    thumbnailItems.forEach(item => {
+        item.addEventListener('click', () => {
+            mainThumbnail.src = item.src;
+        });
+    });
+</script>
+</body>
 </html>

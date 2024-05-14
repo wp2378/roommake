@@ -77,7 +77,6 @@ public class CsController {
 
     @GetMapping("/faq/list")
     public String fnqList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                          @RequestParam(name = "rows", required = false, defaultValue = "10") int rows,
                           @RequestParam(name = "sort", required = false, defaultValue = "date") String sort,
                           @RequestParam(name = "filt", required = false, defaultValue = "all") String filt,
                           @RequestParam(name = "opt", required = false) String opt,
@@ -87,7 +86,6 @@ public class CsController {
         Criteria criteria = new Criteria();
 
         criteria.setPage(page);
-        criteria.setRows(rows);
         criteria.setSort(sort);
         criteria.setFilt(filt);
 
@@ -96,7 +94,7 @@ public class CsController {
             criteria.setKeyword(keyword);
         }
 
-        ListDto<Faq> dto = faqService.getFaqs(criteria);
+        ListDto<Faq> dto = faqService.getAllFaqs(criteria);
         model.addAttribute("faqs", dto.getItems());
         model.addAttribute("paging", dto.getPaging());
         model.addAttribute("criteria", criteria);

@@ -11,7 +11,8 @@
                 <tr>
                     <th>순번</th>
                     <th>교환번호</th>
-                    <th>주문자명</th>
+                    <th>상품번호</th>
+                    <th>교환주문자명</th>
                     <th>상품이름</th>
                     <th>교환일자</th>
                     <th>교환사유</th>
@@ -24,6 +25,7 @@
                     <td>
                         <a class="link-offset-1" th:href="@{/admin/order/exchange-detail/{id}(id=${exchange.exchangeId})}" th:text="${exchange.exchangeId}"></a>
                     </td>
+                    <td th:text="${exchange.productId}">상품번호</td>
                     <td th:text="${exchange.userNickname}">이순신</td>
                     <td th:text="${exchange.productName}">쇼파</td>
                     <td th:text="${#dates.format(exchange.createDate, 'yyyy-MM-dd HH:mm:ss')}">2024-04-19</td>

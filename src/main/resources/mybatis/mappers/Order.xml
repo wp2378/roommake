@@ -225,13 +225,15 @@
             );
     </update>
 
-    <update id="updateAutoConfirmOrderItems">
-        update
-            order_item
-        set
-            order_status_id = 4, order_item_update_date = current_timestamp
+    <select id="getOrdersByStatus" parameterType="int" resultType="com.roommake.order.vo.Order">
+        select
+            order_id        as id,
+            user_id         as "user.id",
+            order_status_id as "status.id"
+        from
+            `order`
         where
-            order_item_create_date &lt; current_date - interval 7 day
-        and order_status_id != 4
-    </update>
+            order_status_id = 3
+        and order_create_date &lt; current_date - interval 7 day
+    </select>
 </mapper>

@@ -137,6 +137,7 @@ public class ProductService {
         product.setPrice(form.getPrice());
         product.setDiscount(form.getDiscount());
         product.setContent(form.getContent());
+
         ProductCategory category = new ProductCategory();
         category.setId(form.getCategoryId());
         product.setCategory(category);

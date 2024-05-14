@@ -64,10 +64,6 @@ public class AdminProductController {
         return "admin/product/form";
     }
 
-    /**
-     * @param productCreateForm 상품등록폼
-     * @return
-     */
     @PostMapping("/create")
     public String createproduct(ProductCreateForm productCreateForm) {
         adminproductService.insertProduct(productCreateForm);
@@ -75,10 +71,6 @@ public class AdminProductController {
         return "redirect:/admin/product/list";
     }
 
-    /**
-     * @param form 상품이미지 등록
-     * @return
-     */
     public String create(ProductCreateForm form) {
         return "redirect:/product/list";
     }
@@ -94,11 +86,7 @@ public class AdminProductController {
         model.addAttribute("product", product);
         return "/admin/product/modify";
     }
-
-    /**
-     * @param product 상품 수정
-     * @return
-     */
+    
     @PostMapping("/modify")
     public String modifyPost(Product product) {
         adminproductService.modifyProduct(product);

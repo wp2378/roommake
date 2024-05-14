@@ -9,6 +9,7 @@ import com.roommake.order.mapper.MyOrderMapper;
 import com.roommake.order.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class MyOrderService {
      * @param userId 유저번호
      * @return 로그인한 유저의 모든 주문내역
      */
+    @Transactional(readOnly = true)
     public ListDto<OrderListDto> getAllOrdersByUserId(int userId, MyOrderCriteria criteria) {
 
         int totalRows = myOrderMapper.getTotalRows(criteria, userId);
@@ -46,6 +48,7 @@ public class MyOrderService {
      * @param userId 유저번호
      * @return 로그인한 유저의 추천코드, 포인트, 구매등급
      */
+    @Transactional(readOnly = true)
     public UserOrderInfoDto getUserOrderInfo(int userId) {
         return myOrderMapper.getUserOrderInfoByUserId(userId);
     }

@@ -31,7 +31,6 @@ public class AdminOrderService {
     public void createDeliveryNo(Order order) {
 
         String invNo = (Math.round(Math.random() * 100) + 100) + "-" + (Math.round(Math.random() * 100) + 100);
-
         order.setInvoiceNumber(invNo);
         adminOrderMapper.updateOrderStatus(order);
         adminOrderMapper.updateOrderItemStatus(order);

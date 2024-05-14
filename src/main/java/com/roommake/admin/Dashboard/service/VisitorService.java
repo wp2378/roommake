@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -34,8 +35,17 @@ public class VisitorService {
      *
      * @return 순 방문자 수
      */
+    @Transactional(readOnly = true)
     public int getVisitorCount() {
-        return dashboardMapper.getDailyVisitorCount();
+        long beforeTime = System.currentTimeMillis();
+
+        int visitorCount = dashboardMapper.getDailyVisitorCount();
+
+        long afterTime = System.currentTimeMillis();
+        long diffTime = afterTime - beforeTime;
+        log.info("매출데이터 조회 시간: " + diffTime + "ms");
+
+        return visitorCount;
     }
 
     /**
@@ -53,7 +63,15 @@ public class VisitorService {
      * @return
      */
     public int getTotalVisitorCount() {
-        return dashboardMapper.getTotalVisitorCount();
+        long beforeTime = System.currentTimeMillis();
+
+        int totalVisitorCount = dashboardMapper.getTotalVisitorCount();
+
+        long afterTime = System.currentTimeMillis();
+        long diffTime = afterTime - beforeTime;
+        log.info("매출데이터 조회 시간: " + diffTime + "ms");
+
+        return totalVisitorCount;
     }
 
     /**

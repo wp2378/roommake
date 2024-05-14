@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class DashBoardService {
 
         dto.setNewVisitorCnt(visitorService.getVisitorCount());             // 전날 방문자
         dto.setVisitorCounts(visitorService.getTotalVisitorCount());        // 누적 방문자수
-        
+
         return dto;
     }
 
@@ -62,9 +63,17 @@ public class DashBoardService {
      * @param days 조회하고 싶은 기간
      * @return 매출정보
      */
+    @Transactional(readOnly = true)
     public List<SalesData> getSalesData(String date, int days) {
+        long beforeTime = System.currentTimeMillis();
 
-        return dashboardMapper.getSalesData(date, days);
+        List<SalesData> salesDataList = dashboardMapper.getSalesData(date, days);
+
+        long afterTime = System.currentTimeMillis();
+        long diffTime = afterTime - beforeTime;
+        log.info("매출데이터 조회 시간: " + diffTime + "ms");
+
+        return salesDataList;
     }
 
     /**
@@ -73,9 +82,17 @@ public class DashBoardService {
      * @param date 상태 변동이 일어난 날짜
      * @return 해당 날짜에 발생한 건수
      */
+    @Transactional(readOnly = true)
     public List<OrderStatusData> getOrderStatusData(String date) {
+        long beforeTime = System.currentTimeMillis();
 
-        return dashboardMapper.getOrderStatusData(date);
+        List<OrderStatusData> orderStatusDataList = dashboardMapper.getOrderStatusData(date);
+
+        long afterTime = System.currentTimeMillis();
+        long diffTime = afterTime - beforeTime;
+        log.info("주문상태별 건수 조회 시간: " + diffTime + "ms");
+
+        return orderStatusDataList;
     }
 
     /**

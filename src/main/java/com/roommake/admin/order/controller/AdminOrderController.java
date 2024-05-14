@@ -101,10 +101,7 @@ public class AdminOrderController {
     public void updateDeliveryNo(@RequestBody Order order) {
         adminOrderService.createDeliveryNo(order);
     }
-
-    /**
-     * @param order 배송 상태값 업데이트
-     */
+    
     @PostMapping("/updateItem")
     @ResponseBody
     public void orderItem(@RequestBody Order order) {

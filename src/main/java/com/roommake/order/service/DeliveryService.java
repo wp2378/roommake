@@ -22,6 +22,7 @@ public class DeliveryService {
      * @param userId 유저 번호
      * @return 로그인한 유저의 배송지 목록
      */
+    @Transactional(readOnly = true)
     public List<Delivery> getDeliveriesByUserId(int userId) {
         return deliveryMapper.getDeliveriesByUserId(userId);
     }
@@ -67,6 +68,7 @@ public class DeliveryService {
      * @param deliveryId 배송지 번호
      * @return 배송지 번호에 해당하는 배송지 정보
      */
+    @Transactional(readOnly = true)
     public Delivery getDeliveryById(int deliveryId) {
         return deliveryMapper.getDeliveryById(deliveryId);
     }

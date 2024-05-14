@@ -44,6 +44,7 @@ public class ComplaintService {
      * @param filt 신고처리 여부
      * @return 신고 목록
      */
+    @Transactional(readOnly = true)
     public List<ComplaintDto> getBoardComplaints(String filt) {
         return complaintMapper.getBoardComplaints(filt);
     }
@@ -54,12 +55,13 @@ public class ComplaintService {
      * @param filt 신고처리 여부
      * @return 신고 목록
      */
+    @Transactional(readOnly = true)
     public List<ComplaintDto> getReplyComplaints(String filt) {
         return complaintMapper.getReplyComplaint(filt);
     }
 
     /**
-     * 신고를 시키고, 콘텐츠와 작성자도 상황에 맞게 신고횟수를 누적시킨다.
+     * 신고를 확정 시키고, 콘텐츠와 작성자도 상황에 맞게 신고횟수를 누적시킨다.
      *
      * @param compalintTypeAndId 신고의 콘텐츠 유형과 신고 id
      */

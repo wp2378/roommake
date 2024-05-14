@@ -7,14 +7,14 @@ import lombok.Setter;
 @Getter
 public class OrderHistoryResponseDto {
     private int id;
-    private int productId;
-    private int detailId;
-    private int price;
-    private int qty;
-    private int status;
-    private String productName;
-    private String userNickname;
-    private String invoiceNumber;
+    private int productId;         // 상품번호
+    private int detailId;          // 상세번호
+    private int price;             // 가격
+    private int qty;               // 수량
+    private int status;            //상태
+    private String productName;    // 상품이름
+    private String userNickname;  // 유저이름
+    private String invoiceNumber; // 송장번호
 }
 
 

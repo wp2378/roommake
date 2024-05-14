@@ -220,11 +220,18 @@
                 if (qna.updateDate != null && (qna.answerYn) == "Y") {
                     $('#qna-answer-date').text(qna.updateDate);
                     $('#qna-answer-status').text("답변 완료");
-                    $('#btn-save-answer').hide();
+                    $('#no-answer-form').hide();
+                    $('#qna-content').closest("tr").next(".answer-row").remove(); // 이미 존재하는 답변 내용 tr 삭제
+                    $('#qna-content').closest("tr").after(
+                        `<tr class="answer-row">
+                            <th>답변내용</th>
+                            <td colspan="3">${qna.answer}</td>
+                        </tr>`);
                 } else {
                     $('#qna-answer-date').text("-");
                     $('#qna-answer-status').text("미응답");
                     $('#no-answer-form').show();
+                    $('#qna-content').closest("tr").next(".answer-row").remove(); // 답변 내용 tr 삭제
                 }
                 if (qna.product != null) {
                     $('#qna-product-id').text(qna.product.id);

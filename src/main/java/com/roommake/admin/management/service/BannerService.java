@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -54,6 +55,7 @@ public class BannerService {
         bannerMapper.createBanner(banner);
     }
 
+    @Transactional(readOnly = true)
     public Banner getBannerById(int id) {
 
         return bannerMapper.getBannerById(id);
@@ -128,6 +130,7 @@ public class BannerService {
      * @param criteria 배너를 가져올 조건이 담긴 객체
      * @return 배너 리스트
      */
+    @Transactional(readOnly = true)
     public ListDto<Banner> getBanners(Criteria criteria) {
 
         int totalRows = bannerMapper.getTotalRows(criteria);

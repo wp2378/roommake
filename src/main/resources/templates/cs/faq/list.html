@@ -53,7 +53,7 @@
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapse' + ${faq.id}" aria-expanded="false" aria-controls="'collapse' + ${faq.id}"
                                     th:text="${faq.title}"></button>
                         </h2>
-                        <div th:id="'collapse' + ${faq.id}" class="accordion-collapse collapse" aria-labelledby="'heading' + ${faq.id}" data-bs-parent="#accordionExample">
+                        <div th:id="'collapse' + ${faq.id}" class="accordion-collapse collapse bg-light" aria-labelledby="'heading' + ${faq.id}" data-bs-parent="#accordionExample">
                             <div class="accordion-body" th:text="${faq.content}"></div>
                         </div>
                     </div>

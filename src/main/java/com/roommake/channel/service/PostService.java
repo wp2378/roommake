@@ -14,6 +14,7 @@ import com.roommake.user.vo.Follow;
 import com.roommake.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,7 @@ public class PostService {
      * @param email     로그인한 유저 이메일
      * @return 채널 정보, 참여자 수, 채널글 개수, 채널글 목록
      */
+    @Transactional(readOnly = true)
     public ChannelDto getAllPostsByChannelId(int channelId, String email, ChannelCriteria criteria) {
 
         ChannelDto dto = new ChannelDto();
@@ -144,6 +146,7 @@ public class PostService {
      * @param postId 채널 글 아이디
      * @return 채널 글 전체 댓글
      */
+    @Transactional(readOnly = true)
     public PostReplyListDto getAllPostReplies(int postId, String email, int currentPage) {
         int totalReplyCount = postReplyMapper.getTotalReplyCountByPostId(postId);
         // 삭제된 댓글(대댓글이 있는 댓글)을 포함한 댓글 수
@@ -173,6 +176,7 @@ public class PostService {
      * @param postId 채널 글 아이디
      * @return 채널 글
      */
+    @Transactional(readOnly = true)
     public ChannelPost getPostByPostId(int postId) {
         return postMapper.getPostByPostId(postId);
     }
@@ -304,6 +308,7 @@ public class PostService {
      * @param replyId 댓글 아이디
      * @return 댓글
      */
+    @Transactional(readOnly = true)
     public ChannelPostReply getPostReplyByReplyId(int replyId) {
         return postReplyMapper.getReplyByReplyId(replyId);
     }

@@ -16,4 +16,5 @@ public class ItemCancelDto {
     private String ReasonName;  // 취소 사유
     private String productName; // 상품이름
     private String nickName;    // 신청자명
+    private int productId;      // 취소상품번호
 }

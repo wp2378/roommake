@@ -24,4 +24,5 @@ public class ItemReturnDto {
     private int orderItemPrice;                 // 상품가격
     private String userNickname;                // 신청자명
     private String productName;                 // 상품이름
+    private int productId;
 }

@@ -17,6 +17,7 @@ import com.roommake.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
@@ -81,6 +82,7 @@ public class CommunityService {
      * @param criteria  정렬 및 페이징 정보
      * @return 커뮤니티 글 목록, 정렬 및 페이징
      */
+    @Transactional(readOnly = true)
     public ListDto<Community> getAllCommunitiesByCatId(int commCatId, CommCriteria criteria) {
         criteria.setCommCatId(commCatId);
         int totalRows = communityMapper.getCommTotalRowByCommId(criteria);
@@ -99,6 +101,7 @@ public class CommunityService {
      *
      * @return 커뮤니티 카테고리 목록
      */
+    @Transactional(readOnly = true)
     public List<CommunityCategory> getAllCommCategories() {
 
         return communityMapper.getAllCommCategories();
@@ -129,6 +132,7 @@ public class CommunityService {
      * @param commId 커뮤니티 글 아이디
      * @return 커뮤니티 글
      */
+    @Transactional(readOnly = true)
     public Community getCommunityByCommId(int commId) {
 
         return communityMapper.getCommunityByCommId(commId);
@@ -197,6 +201,7 @@ public class CommunityService {
      * @param currentPage 댓글 현재 페이지
      * @return 총 댓글 갯수, 댓글 목록, 댓글 페이지네이션 정보가 들어있는 CommReplyListDto
      */
+    @Transactional(readOnly = true)
     public CommReplyListDto getAllCommReplies(int commId, String email, int currentPage) {
         int totalReplyCount = communityReplyMapper.getTotalReplyCountByCommId(commId); // // 삭제된 댓글 제외
 
@@ -230,6 +235,7 @@ public class CommunityService {
      * @param community 커뮤니티 글
      * @return 추천 커뮤니티 글 목록 (추천 커뮤니티 글의 좋아요 많은 순서대로 4개)
      */
+    @Transactional(readOnly = true)
     public List<Community> getRecommendCommunities(Community community) {
         CommCriteria commCriteria = new CommCriteria();
         commCriteria.setCommCatId(community.getCategory().getId());
@@ -336,6 +342,7 @@ public class CommunityService {
      * @param replyId 댓글 아이디
      * @return 댓글
      */
+    @Transactional(readOnly = true)
     public CommunityReply getCommunityReplyByReplyId(int replyId) {
 
         return communityReplyMapper.getCommReplyByReplyId(replyId);
@@ -449,6 +456,7 @@ public class CommunityService {
      * @param userId 유저 아이디
      * @return 스크랩 폴더 목록
      */
+    @Transactional(readOnly = true)
     public List<ScrapFolder> getScrapFolders(int userId) {
 
         return communityMapper.getAllScrapFoldersUserId(userId);

@@ -8,6 +8,7 @@ import com.roommake.order.dto.OrderCreateForm;
 import com.roommake.order.dto.OrderDto;
 import com.roommake.order.dto.OrderItemDto;
 import com.roommake.order.mapper.DeliveryMapper;
+import com.roommake.order.mapper.MyOrderMapper;
 import com.roommake.order.mapper.OrderMapper;
 import com.roommake.order.vo.Delivery;
 import com.roommake.order.vo.Order;
@@ -24,6 +25,7 @@ import com.roommake.user.vo.User;
 import com.roommake.user.vo.UserGrade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +45,7 @@ public class OrderService {
     private final MailService mailService;
     private final UserMapper userMapper;
     private final CartMapper cartMapper;
+    private final MyOrderMapper myOrderMapper;
 
     /**
      * 장바구니에 담긴 상품의 정보를 반환한다.
@@ -50,6 +53,7 @@ public class OrderService {
      * @param forms 장바구니 상품의 상품번호, 상품상세번호, 장바구니번호, 상품수량이 포함된 CartCreateForm 객체 리스트
      * @return 장바구니 상품의 상세한 정보가 포함된 CartItemDto 객체 리스트
      */
+    @Transactional(readOnly = true)
     public List<CartItemDto> getProductsByDetailId(List<CartCreateForm> forms) {
 
         List<CartItemDto> list = new ArrayList<>();
@@ -70,6 +74,7 @@ public class OrderService {
      * @param userId 유저 번호
      * @return 로그인한 유저의 기본 배송지
      */
+    @Transactional(readOnly = true)
     public Delivery getDefaultDeliveryByUserId(int userId) {
 
         return orderMapper.getDefaultDeliveryByUserId(userId);
@@ -172,6 +177,7 @@ public class OrderService {
      * @param orderId 주문번호
      * @return 주문정보, 결제정보, 배송지정보, 주문상세정보가 담긴 OrderDto 객체
      */
+    @Transactional(readOnly = true)
     public OrderDto getOrderById(int orderId) {
 
         Payment payment = orderMapper.getPaymentByOrderId(orderId);
@@ -224,12 +230,24 @@ public class OrderService {
      * @param userId 유저번호
      * @return 유저정보가 담긴 User 객체
      */
+    @Transactional(readOnly = true)
     public User getUserById(int userId) {
         return userMapper.getUserById(userId);
     }
 
-    // 자동구매확정 ing
+    /**
+     * 매일 자정에 배송완료 후 7일이 지난 주문내역의 주문상태를 '구매확정'으로 갱신하고, 적립포인트내역 생성 및 유저의 보유포인트를 갱신한다.
+     */
+    @Scheduled(cron = "0 0 0 * * ?")
     public void updateAutoConfirmOrderItems() {
-        orderMapper.updateAutoConfirmOrderItems();
+        List<Order> orders = orderMapper.getOrdersByStatus();
+        for (Order order : orders) {
+            int userId = order.getUser().getId();
+            List<OrderItemDto> orderItems = orderMapper.getItemsByOrderId(order.getId());
+
+            for (OrderItemDto item : orderItems) {
+                this.confirmOrderItemById(item.getOrderItemId(), item.getItemPrice(), userId);
+            }
+        }
     }
 }

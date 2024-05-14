@@ -11,6 +11,7 @@ import com.roommake.user.mapper.UserMapper;
 import com.roommake.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -90,9 +91,10 @@ public class FaqService {
      * @param criteria 리스트 반환 조건이 담긴 객체
      * @return 자주묻는질문 리스트
      */
+    @Transactional(readOnly = true)
     public ListDto<Faq> getFaqs(Criteria criteria) {
 
-        int totalRows = faqMapper.getTotalRows(criteria);
+        int totalRows = getTotalRows(criteria);
 
         Pagination pagination = new Pagination(criteria.getPage(), totalRows, criteria.getRows());
 
@@ -105,12 +107,41 @@ public class FaqService {
         return dto;
     }
 
+    public int getTotalRows(Criteria criteria) {
+        return faqMapper.getTotalRows(criteria);
+    }
+
+    /**
+     * 페이징처리 없는 카테고리별 전체 자주묻는질문 리스트
+     *
+     * @param criteria
+     * @return
+     */
+    public ListDto<Faq> getAllFaqs(Criteria criteria) {
+
+        int totalRows = getTotalRows(criteria);
+
+        criteria.setRows(getTotalRows(criteria));
+
+        Pagination pagination = new Pagination(criteria.getPage(), totalRows, criteria.getRows());
+
+        criteria.setBegin(pagination.getBegin());
+        criteria.setEnd(pagination.getEnd());
+
+        List<Faq> faqs = faqMapper.getFaqs(criteria);
+
+        ListDto<Faq> dto = new ListDto<>(faqs, pagination);
+
+        return dto;
+    }
+
     /**
      * 자주묻는질문 id를 받아 해당 객체를 반환한다.
      *
      * @param id 자주묻는질문 id
      * @return 자주묻는질문 객체
      */
+    @Transactional(readOnly = true)
     public Faq getFaqById(int id) {
         return faqMapper.getFaqById(id);
     }
@@ -120,6 +151,7 @@ public class FaqService {
      *
      * @return 자주묻는질문 카테고리 리스트
      */
+    @Transactional(readOnly = true)
     public List<FaqCategory> getFaqCategories() {
 
         return faqMapper.getFaqCategories();
@@ -131,6 +163,7 @@ public class FaqService {
      * @param faqCatId 카테고리 번호
      * @return 카테고리 번호, 이름이 담긴 카테고리 객체
      */
+    @Transactional(readOnly = true)
     public FaqCategory getFaqCategory(int faqCatId) {
         return faqMapper.getFaqCategory(faqCatId);
     }

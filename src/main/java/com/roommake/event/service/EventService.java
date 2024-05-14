@@ -10,6 +10,7 @@ import com.roommake.user.vo.PointType;
 import com.roommake.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class EventService {
      * @param criteria 필터, 시작, 끝
      * @return 배너 목록
      */
+    @Transactional(readOnly = true)
     public List<Banner> getBanners(Criteria criteria) {
         criteria.setBegin(1);
         criteria.setEnd(10);

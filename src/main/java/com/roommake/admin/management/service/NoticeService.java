@@ -10,6 +10,7 @@ import com.roommake.user.mapper.UserMapper;
 import com.roommake.user.vo.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -83,6 +84,7 @@ public class NoticeService {
      * @param criteria 반환할 공지사항 리스트 조건이 담긴 객체
      * @return 공지사항 리스트
      */
+    @Transactional(readOnly = true)
     public ListDto<Notice> getNotices(Criteria criteria) {
 
         int totalRows = noticeMapper.getTotalRows(criteria);
@@ -104,6 +106,7 @@ public class NoticeService {
      * @param id 찾을 공지사항
      * @return 반환된 공지사항
      */
+    @Transactional(readOnly = true)
     public Notice getNoticeById(int id) {
         return noticeMapper.getNoticeById(id);
     }
